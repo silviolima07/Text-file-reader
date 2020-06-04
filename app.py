@@ -1,6 +1,6 @@
 import streamlit as st
 
-#from textblob import TextBlob
+from textblob import TextBlob
 
 #import pdftotext
 
@@ -12,12 +12,12 @@ import streamlit as st
 
 from PIL import Image
 
-#import pandas as pd
+import pandas as pd
 
 # Audio
-#from gtts import gTTS
+from gtts import gTTS
 
-#from bokeh.models.widgets import Div
+from bokeh.models.widgets import Div
 
 def get_value( my_key, my_dicts):
     for key, value in my_dicts.items():
@@ -159,36 +159,39 @@ def main():
         #st.write(blob.detect_language())
 
         
-   # if choice == 'TXT':
-   #     try:
-   #         file = carregar_texto('txt')
-   #         blob= TextBlob(file.getvalue())
-   #         dict_idioma_full = lista_idiomas_full()
-   #         idioma_original = get_value(blob.detect_language(),dict_idioma_full)
-   #         original_key = get_key(idioma_original, dict_idioma_full)
-   #         dict_idioma = lista_idiomas(idioma_original)
-   #         st.markdown(blob)
-   #         play(file.getvalue(),original_key)
-   #      
-   #         convert(dict_idioma, blob)
-   #                       
-   #     except:
-   #         st.warning("TXT please")
+    if choice == 'TXT':
+        try:
+            file = carregar_texto('txt')
+            st.write(file.getvalue())
+            blob= TextBlob(file.getvalue())
+            dict_idioma_full = lista_idiomas_full()
+            #st.markdown(dict_idioma_full)
+            idioma_original = get_value(blob.detect_language(),dict_idioma_full)
+            #st.markdown(idioma_original)
+            original_key = get_key(idioma_original, dict_idioma_full)
+            dict_idioma = lista_idiomas(idioma_original)
+            st.markdown(original_key)
+            play(file.getvalue(),original_key)
+         
+            convert(dict_idioma, blob)
+                          
+        except:
+            st.warning("TXT please")
 
-   # if choice == 'About':
-   #     st.subheader("I hope you enjoy it and use to learn something")
-   #     st.subheader("For while only txt files")
-   #     st.subheader("Built with Streamlit and Textblob")
-   #     st.write("Problems:")
-   #     st.write(" - sometimes the original language can't be correctly detected")
-   #     st.write(" - sometimes the sound will fail.")
-   #     st.subheader("by Silvio Lima")
-   #     
-   #     if st.button("Linkedin"):
-   #         js = "window.open('https://www.linkedin.com/in/silviocesarlima/')"
-   #         html = '<img src onerror="{}">'.format(js)
-   #         div = Div(text=html)
-   #         st.bokeh_chart(div)
+    if choice == 'About':
+        st.subheader("I hope you enjoy it and use to learn something")
+        st.subheader("For while only txt files")
+        st.subheader("Built with Streamlit and Textblob")
+        st.write("Problems:")
+        st.write(" - sometimes the original language can't be correctly detected")
+        st.write(" - sometimes the sound will fail.")
+        st.subheader("by Silvio Lima")
+        
+        if st.button("Linkedin"):
+            js = "window.open('https://www.linkedin.com/in/silviocesarlima/')"
+            html = '<img src onerror="{}">'.format(js)
+            div = Div(text=html)
+            st.bokeh_chart(div)
 
 
 
