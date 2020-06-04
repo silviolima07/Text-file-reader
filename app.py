@@ -143,13 +143,7 @@ def main():
     #    st.text([(word, word.ent_type_) for word in sentence_nlp if word.ent_type_])
     #    displacy.render(sentence_nlp, style='ent', jupyter=True)
         
-    #    file = carregar_texto('')
-    #    file = '/media/silvio/SILVIOLIMA/SilvioCesarDeLima.pdf'
-        #st.text(file)
-    #    raw = parser.from_file(file)
-    #    text = raw['content']
-    #    st.text(text)
-        #text = textract.process(str(file))
+  
         #st.text(text)
     #    st.subheader("Under construction")
         #file = carregar_texto('pdf')
