@@ -153,7 +153,7 @@ def main():
         #    doc = slate,PDF(f)
             #for page in pdf:
             #    st.text(page)
-        #st.text(doc)    
+            
         
         
         
