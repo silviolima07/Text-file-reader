@@ -154,7 +154,7 @@ def main():
             #for page in pdf:
             #    st.text(page)
         #st.text(doc)    
-        #blob = TextBlob(pdf.getPage())
+        
         
         
 
