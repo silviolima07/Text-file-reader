@@ -156,7 +156,7 @@ def main():
         #st.text(doc)    
         #blob = TextBlob(pdf.getPage())
         #st.text(blob)
-        #st.write(blob.detect_language())
+        
 
         
     if choice == 'TXT':
