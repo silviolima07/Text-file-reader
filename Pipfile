@@ -12,6 +12,8 @@ textblob = "==0.15.3"
 streamlit = "==0.61.0"
 gTTS = "==2.1.1"
 Pillow = "==7.1.2"
+spacy = "*"
+pt-core-news-sm = "*"
 
 [requires]
 python_version = "3.6"

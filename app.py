@@ -4,10 +4,10 @@ from textblob import TextBlob
 
 #import pdftotext
 
-#import spacy
-#from spacy import displacy
+import spacy
+from spacy import displacy
 
-#import pt_core_news_sm
+import pt_core_news_sm
 
 
 from PIL import Image
