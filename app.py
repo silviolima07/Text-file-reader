@@ -136,11 +136,11 @@ def main():
         st.write("After uploading you can convert to 7 languages")
         st.markdown("### English, Spanish, French, Italian, Japanese, Russian  and Chinese")
         
-    #if choice == 'Spacy':
-    #    nlp = spacy.load('pt_core_news_sm')
-    #    sentence_nlp = nlp("Hermione é uma ferramenta de desenvolvimento de projetos de ciencia de dados.")
-    #    st.text([(word, word.ent_type_) for word in sentence_nlp if word.ent_type_])
-    #    displacy.render(sentence_nlp, style='ent', jupyter=True)
+    if choice == 'Spacy':
+        nlp = spacy.load('pt_core_news_sm')
+        sentence_nlp = nlp("Hermione é uma ferramenta de desenvolvimento de projetos de ciencia de dados.")
+        st.text([(word, word.ent_type_) for word in sentence_nlp if word.ent_type_])
+        displacy.render(sentence_nlp, style='ent', jupyter=True)
         
   
         #st.text(text)
