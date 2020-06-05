@@ -7,9 +7,6 @@ from textblob import TextBlob
 import spacy
 from spacy import displacy
 
-python -m spacy download en_core_web_sm
-python -m spacy download pt_core_news_sm
-
 
 
 from PIL import Image
