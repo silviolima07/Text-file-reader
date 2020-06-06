@@ -130,7 +130,7 @@ def process_text(model_name, text):
     return nlp(text)
 
 SPACY_MODEL_NAMES = ["pt_core_news_sm"]
-DEFAULT_TEXT = "Amor é fogo que arde sem se ver, Poema escrito por Luís Vaz de Camões, Começa assim, Amor é um fogo que arde sem se ver; É ferida que dói, e não se sente; É um contentamento descontente; É dor que desatina sem doer. É um não querer mais que bem querer; É um andar solitário entre a gente; É nunca contentar-se e contente;É um cuidar que ganha em se perder; É querer estar preso por vontade; É servir a quem vence, o vencedor; É ter com quem nos mata, lealdade.Mas como causar pode seu favor, Nos corações humanos amizade, Se tão contrário a si é o mesmo Amor?"
+DEFAULT_TEXT = "Amor é fogo que arde sem se ver. Poema escrito por Luís Vaz de Camões. Começa assim. Amor é um fogo que arde sem se ver. É ferida que dói, e não se sente. É um contentamento descontente; É dor que desatina sem doer. É um não querer mais que bem querer. É um andar solitário entre a gente. É nunca contentar-se e contente. É um cuidar que ganha em se perder. É querer estar preso por vontade. É servir a quem vence, o vencedor. É ter com quem nos mata, lealdade.Mas como causar pode seu favor. Nos corações humanos amizade. Se tão contrário a si é o mesmo Amor?"
 
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
@@ -150,6 +150,9 @@ def main():
 
     image = Image.open("reader.png")
     st.sidebar.image(image,caption="", use_column_width=True)
+
+    image1 = Image.open("bandeiras.png")
+    st.image(image1,caption="",use_column_width=True)
    
     activities = ["Home","Reader", 'Spacy',"About"]
     choice = st.sidebar.radio("Home",activities)
@@ -160,8 +163,8 @@ def main():
     if choice == 'Home':
         #st.write("Files:")
         st.markdown("### Files -> .txt")
-        st.write("After uploading you can convert to 7 languages")
-        st.markdown("### English, Spanish, French, Italian, Japanese, Russian  and Chinese")
+        st.write("After uploading you can convert to 8 languages")
+        st.write("#### Portuguese, Chinese, Spanish, French, Italian, Japanese, Russian and English")
         
     if choice == 'Spacy':
         try:
