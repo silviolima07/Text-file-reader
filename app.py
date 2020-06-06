@@ -77,15 +77,18 @@ def carregar_texto(type):
         #    file = DEFAULT_TEXT
         #    Flag_button = True        
         if file is not None:
-       	    st.success("Arquivo carregado.")
+       	    #st.success("Arquivo carregado.")
             doc = file.getvalue()
             flag = 'upload'
         else:
             st.write("Um arquivo tipo de 3kB, por favor.")
         st.markdown("### Arquivos de demonstração")
         if st.button("Camoes.txt"):
-            doc = DEFAULT_TEXT
-            flag = 'demo' 
+            doc = camoes
+            flag = 'demo'
+        if st.button("Armstrong.txt"):
+            doc = armstrong
+            flag = 'demo'  
         return doc, flag  
 
 
@@ -130,7 +133,10 @@ def process_text(model_name, text):
     return nlp(text)
 
 SPACY_MODEL_NAMES = ["pt_core_news_sm"]
-DEFAULT_TEXT = "Amor é fogo que arde sem se ver. Poema escrito por Luís Vaz de Camões. Começa assim. Amor é um fogo que arde sem se ver. É ferida que dói, e não se sente. É um contentamento descontente; É dor que desatina sem doer. É um não querer mais que bem querer. É um andar solitário entre a gente. É nunca contentar-se e contente. É um cuidar que ganha em se perder. É querer estar preso por vontade. É servir a quem vence, o vencedor. É ter com quem nos mata, lealdade.Mas como causar pode seu favor. Nos corações humanos amizade. Se tão contrário a si é o mesmo Amor?"
+camoes = "Amor é fogo que arde sem se ver. Poema escrito por Luís Vaz de Camões. Começa assim. Amor é um fogo que arde sem se ver. É ferida que dói, e não se sente. É um contentamento descontente. É dor que desatina sem doer. É um não querer mais que bem querer. É um andar solitário entre a gente. É nunca contentar-se e contente. É um cuidar que ganha em se perder. É querer estar preso por vontade. É servir a quem vence, o vencedor. É ter com quem nos mata, lealdade. Mas como causar pode seu favor. Nos corações humanos amizade. Se tão contrário a si é o mesmo Amor?"
+
+armstrong = "What A Wonderful World, Louis Armstrong. The Louis Armstrong Songbook. Listening. I see trees of green, Red roses too, I see them bloom, For me and you, And I think to myself, What a wonderful world. I see skies of blue and clouds of white, The bright blessed day, The dark sacred night, And I think to myself, What a wonderful world. The colors of the rainbow, So pretty in the sky, Are also on the faces, Of people going by, I see friends shaking hands, Saying: How do you do? They're really saying, I love you."
+
 
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
@@ -159,6 +165,8 @@ def main():
     dict_idioma_full = lista_idiomas_full()
     flag = 'carregar'
     warning = "Carregue um arquivo ou clique num arquivo da demonstração."
+    carregado = "Arquivo demonstraçao carregado..."
+    uploaded = "Arquivo uploaded"
 
     if choice == 'Home':
         #st.write("Files:")
@@ -171,9 +179,9 @@ def main():
             #file = carregar_texto('txt')
             doc, flag = carregar_texto('txt')
             if flag == "demo":
-                st.write("Arquivo demonstração carregado...")
+                st.success(carregado)
             if flag == 'upload':
-                st.write("Arquivo uploaded...")
+                st.success(uploaded)
             blob = TextBlob(doc)
             idioma_original = get_value(blob.detect_language(),dict_idioma_full)   
             st.markdown("### Texto")
@@ -285,9 +293,9 @@ def main():
         try:
             doc, flag = carregar_texto('txt')
             if flag == "demo":
-                st.write("Arquivo demonstração carregado...")
+                st.success(carregado)
             if flag == 'upload':
-                st.write("Arquivo uploaded...")
+                st.success(uploaded)
             blob = TextBlob(doc)
             idioma_original = get_value(blob.detect_language(),dict_idioma_full)   
             
