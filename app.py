@@ -103,7 +103,7 @@ def convert(dict_idioma,blob):
         try:
             texto_convertido = str(blob.translate(to=idioma_final_key))
             st.success("Language"+": "+ value + " ("+idioma_final_key+")")
-            st.subheader(texto_convertido)
+            st.write(texto_convertido)
                                 #st.text(idioma_final_key)
             play(texto_convertido,idioma_final_key)
                         
