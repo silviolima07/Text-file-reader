@@ -59,15 +59,6 @@ def play(raw_text, idioma_key):
     audio_bytes = audio_file.read()
     st.audio(audio_bytes, format="audio/mp3")
 
-
-#def cria_audio(audio):
-
-# tts = gTTS(audio,lang='en')
-# #Salva o arquivo de audio
-# tts.save('audio/hello.mp3')
-# print("Estou aprendendo o que você disse...")
-# #Da play ao audio
-# playsound('audio/hello.mp3')
     
 
 def carregar_texto(type):
