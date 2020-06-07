@@ -61,56 +61,58 @@ def play(raw_text, idioma_key):
 
     
 
-def carregar_texto(type):
-        file = st.file_uploader("Carregue um arquivo de texto", type=[type])
-        #st.write("Arquivos de demonstração")
-        #if st.button("Camoes.txt"):
-        #    file = DEFAULT_TEXT
-        #    Flag_button = True        
+def carregar_texto():
+        file = None
+        file = st.file_uploader("Carregue um arquivo de texto", type=['txt'])
         if file is not None:
-       	    #st.success("Arquivo carregado.")
             doc = file.getvalue()
-            flag = 'upload'
-        else:
-            st.write("Um arquivo tipo de 3kB, por favor.")
-        st.markdown("### Arquivos de demonstração")
-        if st.button("Camoes.txt"):
-            doc = camoes
-            flag = 'demo'
+            flag = 'upload'         
+              
+        return doc, flag
+
+
+def carregar_files(tipo, choice):
+        if tipo == "upload":
+            doc, flag = carregar_texto()
+        elif tipo == "demo":
+            doc, flag = carregar_demo(choice)           
+        
+        return doc, flag
+
+def carregar_demo(choice):
+    st.markdown("### Arquivos de demonstração")
+    if st.button("Camoes.txt"):
+        doc = camoes
+        flag = 'demo'
+    
+    if choice != "Spacy":
         if st.button("Armstrong.txt"):
             doc = armstrong
             flag = 'demo'  
-        return doc, flag  
+    
+    if st.button("Legiao.txt"):
+        doc = legiao
+        flag = 'demo'
+    return doc, flag  
 
 
-def convert(dict_idioma,blob):
+def convert(dict_idioma,blob, options):
     try:
-        dict_idioma_full = lista_idiomas_full()
-      
-        #st.write(dict_idioma)
-                    
-        #st.success("Original Language"+":  "+ idioma_original + " ("+original_key+")")
-        #play(file.getvalue(),original_key)
-            
-        #dict_idioma = lista_idiomas(idioma_original)
-        options = st.radio("Choose a language", tuple(dict_idioma.values()))
-                    
-        #idioma_final = get_key(idioma_original, dict_idioma)
-        #st.subheader(options)               
-        value = options
+                  
+        value = options # idioma choosed at radio box
+       
         idioma_final_key = get_key(value, dict_idioma)
-        #st.subheader(idioma_final_key)
+       
         try:
             texto_convertido = str(blob.translate(to=idioma_final_key))
             st.success("Language"+": "+ value + " ("+idioma_final_key+")")
             st.write(texto_convertido)
-                                #st.text(idioma_final_key)
             play(texto_convertido,idioma_final_key)
                         
         except:
-            st.error("ERROR: some languages will fail to play the sound.")
+            st.error("ERROR 1: some languages will fail to play the sound.")
     except:
-        st.error("ERROR: some languages will fail to play the sound.")
+        st.error("ERROR 2: some languages will fail to play the sound.")
 
 
 @st.cache(allow_output_mutation=True)
@@ -123,10 +125,14 @@ def process_text(model_name, text):
     nlp = load_model(model_name)
     return nlp(text)
 
+
 SPACY_MODEL_NAMES = ["pt_core_news_sm"]
+
 camoes = "Amor é fogo que arde sem se ver. Poema escrito por Luís Vaz de Camões. Começa assim. Amor é um fogo que arde sem se ver. É ferida que dói, e não se sente. É um contentamento descontente. É dor que desatina sem doer. É um não querer mais que bem querer. É um andar solitário entre a gente. É nunca contentar-se e contente. É um cuidar que ganha em se perder. É querer estar preso por vontade. É servir a quem vence, o vencedor. É ter com quem nos mata, lealdade. Mas como causar pode seu favor. Nos corações humanos amizade. Se tão contrário a si é o mesmo Amor?"
 
 armstrong = "What A Wonderful World, Louis Armstrong. The Louis Armstrong Songbook Listening. I see trees of green, Red roses too, I see them bloom, For me and you, And I think to myself, What a wonderful world. I see skies of blue and clouds of white, The bright blessed day, The dark sacred night, And I think to myself, What a wonderful world. The colors of the rainbow, So pretty in the sky, Are also on the faces, Of people going by, I see friends shaking hands, Saying: How do you do? They're really saying, I love you."
+
+legiao = "Monte Castelo. Legião Urbana. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria. É só o amor! É só o amor. Que conhece o que é verdade. O amor é bom, não quer o mal. Não sente inveja ou se envaidece. O amor é o fogo que arde sem se ver. É ferida que dói e não se sente. É um contentamento descontente. É dor que desatina sem doer. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria. É um não querer mais que bem querer. É solitário andar por entre a gente. É um não contentar-se de contente. É cuidar que se ganha em se perder. É um estar-se preso por vontade. É servir a quem vence, o vencedor. É um ter com quem nos mata a lealdade. Tão contrário a si é o mesmo amor. Estou acordado e todos dormem. Todos dormem, todos dormem. Agora vejo em parte. Mas então veremos face a face. É só o amor! É só o amor. Que conhece o que é verdade. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria."
 
 
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
@@ -148,31 +154,44 @@ def main():
     image = Image.open("reader.png")
     st.sidebar.image(image,caption="", use_column_width=True)
 
-    image1 = Image.open("bandeiras.png")
-    st.image(image1,caption="",use_column_width=True)
+    image1 = Image.open("bandeira6.png")
+    st.image(image1,caption="",use_column_width=True)  
    
-    activities = ["Home","Reader", 'Spacy',"About"]
-    choice = st.sidebar.radio("Home",activities)
-    dict_idioma_full = lista_idiomas_full()
-    flag = 'carregar'
-    warning = "Carregue um arquivo ou clique num arquivo da demonstração."
-    warning_spacy = "Textos em Português."
-    carregado = "Arquivo demonstraçao carregado..."
-    uploaded = "Arquivo uploaded"
+    menu1 = ["Home","Reader", 'Spacy',"About"]
+    choice1 = st.sidebar.radio("Home",menu1)
 
-    if choice == 'Home':
+    menu2 = ["Demo", "Upload"]
+    choice2 = st.sidebar.selectbox("Ativity",menu2)
+    
+    dict_idioma_full = lista_idiomas_full()
+   
+    warning_demo = "Clique num arquivo da demonstração"
+    warning_upload = "Carregue um arquivo txt, por favor"
+    warning_spacy = "treinado apenas para textos em Português."
+    file_test = "Arquivo demonstraçao carregado..."
+    file_upload = "Arquivo uploaded carregado..."
+    spacy_again = "------> Carregue novamente "
+
+    if choice1 == 'Home':
         #st.write("Files:")
         st.markdown("### Files -> .txt")
-        st.write("After uploading you can convert to 8 languages")
-        st.write("#### Portuguese, Chinese, Spanish, French, Italian, Japanese, Russian and English")
+        st.write("After uploading you can convert to 6 languages")
+        st.write("#### Portuguese, Spanish, French, Italian, Japanese and English")
         
-    if choice == 'Spacy':
+    if choice1 == 'Spacy':
+        st.subheader(choice1 +" -> "+choice2)
         try:
-            doc, flag = carregar_texto('txt')
-            if flag == "demo":
-                st.success(carregado)
-            if flag == 'upload':
-                st.success(uploaded)
+            if choice2 == menu2[0]:  # "Demo"
+                doc_demo, flag = carregar_files("demo", choice1)
+                st.success(file_test)
+                doc = doc_demo
+                                  
+            
+            elif choice2 == menu2[1]: # "Upload"
+                doc_upload, flag = carregar_files("upload", choice2)
+                st.success(file_upload)
+                doc = doc_upload
+
             blob = TextBlob(doc)
             idioma_original = get_value(blob.detect_language(),dict_idioma_full)   
             st.markdown("### Texto")
@@ -277,22 +296,35 @@ def main():
                     st.json(nlp.meta)
 
             if idioma_original != "Portuguese":
-                st.erro("Apenas textos em Portugues, por favor")
+                st.info("Original Language "+":  "+ idioma_original)
+                st.warning(choice2 + "--> "+ warning_spacy)
+                st.info(spacy_again) 
 
 
         except:
-                st.info(choice + " --> "+warning_spacy)
-                st.warning(choice + " --> "+warning)
+            if choice1 == "Spacy" and choice2 == "Demo":
+                st.warning(choice2 + " --> "+warning_demo)
+            elif choice1 == "Spacy" and choice2 == "Upload":
+                st.warning(choice2 + " --> "+warning_upload)
         
 
         
-    if choice == 'Reader':
+    if choice1 == 'Reader':
+        st.subheader(choice1 +" -> "+choice2)
+        
         try:
-            doc, flag = carregar_texto('txt')
-            if flag == "demo":
-                st.success(carregado)
-            if flag == 'upload':
-                st.success(uploaded)
+            if choice2 == menu2[0]:  # "Demo"
+                doc_demo, flag = carregar_files("demo", choice2)
+                st.success(file_test)
+                doc = doc_demo
+                                  
+            
+            elif choice2 == menu2[1]: # "Upload"
+                doc_upload, flag = carregar_files("upload", choice2)
+                st.success(file_upload)
+                doc = doc_upload
+       
+                       
             blob = TextBlob(doc)
             idioma_original = get_value(blob.detect_language(),dict_idioma_full)   
             
@@ -300,17 +332,25 @@ def main():
             st.markdown(blob)
          
             original_key = get_key(idioma_original, dict_idioma_full)
+            # dict_idioma recebe a lista sem o idioma original
             dict_idioma = lista_idiomas(idioma_original)
             st.success("Original Language"+":  "+ idioma_original + "  ("+original_key+")")
             #st.markdown(original_key)
             play(doc,original_key)
-         
-            convert(dict_idioma, blob)
-                          
+            
+            #st.write(dict_idioma)
+            
+            if flag != "demo":
+                options = st.radio("Choose a language", tuple(dict_idioma.values()))
+                convert(dict_idioma, blob, options)
+                        
         except:
-            st.warning(choice + " --> "+warning)
+           if choice1 == "Reader" and choice2 == "Demo":
+                st.warning(choice2 + " --> "+warning_demo)
+           elif choice1 == "Reader" and choice2 == "Upload":
+                st.warning(choice2 + " --> "+warning_upload)
 
-    if choice == 'About':
+    if choice1 == 'About':
         st.subheader("I hope you enjoy it and use to learn something")
         st.subheader("For while only txt files")
         st.subheader("Built with Streamlit, Textblob and Spacy")
