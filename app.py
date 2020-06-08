@@ -29,19 +29,23 @@ def get_key( my_value, my_dicts):
         if my_value == value:
             return key
 
-@st.cache
+
 def lista_idiomas(idioma_original):
     df_idiomas = pd.read_csv('lista_idiomas.csv')
+    #st.table(df_idiomas)
     dict_idiomas = {}
+    
     linhas = len(df_idiomas)
     for i in range(0, linhas):
         if idioma_original != df_idiomas.iloc[i,1]:
             key = df_idiomas.iloc[i,0] # sigla 'pt'
+            #st.write(key)
             value = df_idiomas.iloc[i,1] # valor 'Portuguese'
+            #st.write(value)
             dict_idiomas[key] = value
     return dict_idiomas
 
-@st.cache
+
 def lista_idiomas_full():
     df_idiomas = pd.read_csv('lista_idiomas.csv')
     dict_idiomas = {}
@@ -81,18 +85,25 @@ def carregar_files(tipo, choice):
 
 def carregar_demo(choice):
     st.markdown("### Arquivos de demonstração")
-    if st.button("Camoes.txt"):
+    if st.button("Amor é fogo que arde sem se ver.txt"):
         doc = camoes
         flag = 'demo'
     
     if choice != "Spacy":
-        if st.button("Armstrong.txt"):
+        if st.button("What A Wonderful World.txt"):
             doc = armstrong
-            flag = 'demo'  
+            flag = 'demo'
     
-    if st.button("Legiao.txt"):
+    if st.button("Monte Castelo.txt"):
         doc = legiao
         flag = 'demo'
+
+    if choice != "Spacy":
+        if st.button("La Barca.txt"):
+            doc = barca
+            flag = 'demo'    
+    
+    
     return doc, flag  
 
 
@@ -130,10 +141,12 @@ SPACY_MODEL_NAMES = ["pt_core_news_sm"]
 
 camoes = "Amor é fogo que arde sem se ver. Poema escrito por Luís Vaz de Camões. Começa assim. Amor é um fogo que arde sem se ver. É ferida que dói, e não se sente. É um contentamento descontente. É dor que desatina sem doer. É um não querer mais que bem querer. É um andar solitário entre a gente. É nunca contentar-se e contente. É um cuidar que ganha em se perder. É querer estar preso por vontade. É servir a quem vence, o vencedor. É ter com quem nos mata, lealdade. Mas como causar pode seu favor. Nos corações humanos amizade. Se tão contrário a si é o mesmo Amor?"
 
-armstrong = "What A Wonderful World, Louis Armstrong. The Louis Armstrong Songbook Listening. I see trees of green, Red roses too, I see them bloom, For me and you, And I think to myself, What a wonderful world. I see skies of blue and clouds of white, The bright blessed day, The dark sacred night, And I think to myself, What a wonderful world. The colors of the rainbow, So pretty in the sky, Are also on the faces, Of people going by, I see friends shaking hands, Saying: How do you do? They're really saying, I love you."
+armstrong = "What A Wonderful World, Louis Armstrong. The Louis Armstrong Songbook. Lets Listening. I see trees of green, Red roses too, I see them bloom, For me and you, And I think to myself, What a wonderful world. I see skies of blue and clouds of white, The bright blessed day, The dark sacred night, And I think to myself, What a wonderful world. The colors of the rainbow, So pretty in the sky, Are also on the faces, Of people going by, I see friends shaking hands, Saying: How do you do? They're really saying, I love you."
 
 legiao = "Monte Castelo. Legião Urbana. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria. É só o amor! É só o amor. Que conhece o que é verdade. O amor é bom, não quer o mal. Não sente inveja ou se envaidece. O amor é o fogo que arde sem se ver. É ferida que dói e não se sente. É um contentamento descontente. É dor que desatina sem doer. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria. É um não querer mais que bem querer. É solitário andar por entre a gente. É um não contentar-se de contente. É cuidar que se ganha em se perder. É um estar-se preso por vontade. É servir a quem vence, o vencedor. É um ter com quem nos mata a lealdade. Tão contrário a si é o mesmo amor. Estou acordado e todos dormem. Todos dormem, todos dormem. Agora vejo em parte. Mas então veremos face a face. É só o amor! É só o amor. Que conhece o que é verdade. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria."
 
+
+barca = "La Barca. Luis Miguel. Dicen que la distancia es el olvido. Pero yo no concibo esta razón. Porque yo seguiré siendo el cautivo. De los caprichos de tu corazón. Supiste esclarecer mis pensamientos. Me diste la verdad que yo soñé. Ahuyentaste de mí los sufrimientos. En la primera noche que te amé. Hoy mi playa se viste de amargura. Porque tu barca tiene que partir. A cruzar otros mares de locura. Cuida que no naufrague en tu vivir. Cuando la luz del sol se esté apagando. Y te sientas cansada de vagar. Piensa que yo por ti estaré esperando. Hasta que tú decidas regresar. Supiste esclarecer mis pensamientos. Me diste la verdad que yo soñé. Ahuyentaste de mí los sufrimientos. En la primera noche que te amé. Hoy mi playa se viste de amargura. Porque tu barca tiene que partir. A cruzar otros mares de locura. Cuida que no naufrague en tu vivir. Cuando la luz del sol se esté apagando. Y te sientas cansada de vagar. Piensa que yo por ti estaré esperando. Hasta que tú decidas regresar."
 
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
@@ -314,7 +327,7 @@ def main():
         
         try:
             if choice2 == menu2[0]:  # "Demo"
-                doc_demo, flag = carregar_files("demo", choice2)
+                doc_demo, flag = carregar_files("demo", choice1)
                 st.success(file_test)
                 doc = doc_demo
                                   
@@ -326,19 +339,21 @@ def main():
        
                        
             blob = TextBlob(doc)
+            dict_idioma_full = lista_idiomas_full()
             idioma_original = get_value(blob.detect_language(),dict_idioma_full)   
             
             st.markdown("### Texto")
             st.markdown(blob)
-         
+            
+ 
             original_key = get_key(idioma_original, dict_idioma_full)
+
             # dict_idioma recebe a lista sem o idioma original
-            dict_idioma = lista_idiomas(idioma_original)
+            dict_idioma = lista_idiomas(idioma_original)        # Remove idioma original da lista
+            
             st.success("Original Language"+":  "+ idioma_original + "  ("+original_key+")")
             #st.markdown(original_key)
             play(doc,original_key)
-            
-            #st.write(dict_idioma)
             
             if flag != "demo":
                 options = st.radio("Choose a language", tuple(dict_idioma.values()))
