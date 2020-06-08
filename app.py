@@ -93,8 +93,13 @@ def carregar_demo(choice):
         if st.button("What A Wonderful World.txt"):
             doc = armstrong
             flag = 'demo'
-    
-    if st.button("Monte Castelo.txt"):
+
+    #if choice != "Spacy":
+    #    if st.button("Paint it Black.txt"):
+    #        doc = black
+    #        flag = 'demo'    
+
+    if st.button("Strani Amori.txt"):
         doc = legiao
         flag = 'demo'
 
@@ -102,6 +107,7 @@ def carregar_demo(choice):
         if st.button("La Barca.txt"):
             doc = barca
             flag = 'demo'    
+    
     
     
     return doc, flag  
@@ -143,10 +149,12 @@ camoes = "Amor é fogo que arde sem se ver. Poema escrito por Luís Vaz de Camõ
 
 armstrong = "What A Wonderful World, Louis Armstrong. The Louis Armstrong Songbook. Lets Listening. I see trees of green, Red roses too, I see them bloom, For me and you, And I think to myself, What a wonderful world. I see skies of blue and clouds of white, The bright blessed day, The dark sacred night, And I think to myself, What a wonderful world. The colors of the rainbow, So pretty in the sky, Are also on the faces, Of people going by, I see friends shaking hands, Saying: How do you do? They're really saying, I love you."
 
-legiao = "Monte Castelo. Legião Urbana. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria. É só o amor! É só o amor. Que conhece o que é verdade. O amor é bom, não quer o mal. Não sente inveja ou se envaidece. O amor é o fogo que arde sem se ver. É ferida que dói e não se sente. É um contentamento descontente. É dor que desatina sem doer. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria. É um não querer mais que bem querer. É solitário andar por entre a gente. É um não contentar-se de contente. É cuidar que se ganha em se perder. É um estar-se preso por vontade. É servir a quem vence, o vencedor. É um ter com quem nos mata a lealdade. Tão contrário a si é o mesmo amor. Estou acordado e todos dormem. Todos dormem, todos dormem. Agora vejo em parte. Mas então veremos face a face. É só o amor! É só o amor. Que conhece o que é verdade. Ainda que eu falasse. A língua dos homens. E falasse a língua dos anjos. Sem amor eu nada seria."
+legiao = "Strani amori. Renato Russo. Mi dispiace devo andare via. Ma sapevo che era una bugia. Quanto tempo perso dietro a lui. Che promette e poi non cambia mai. Strani amori mettono nei guai. Ma, in realtà, siamo noi. E lo aspetti ad un telefono. Litigando che sia libero. Con il cuore nello stomaco. Un gomitolo nell'angolo. Lì da solo, dentro un brivido. Ma perchè lui non c'è. E sono strani amori che fanno crescere. E sorridere tra le lacrime. Quante pagine lì da scrivere. Sogni e lividi da dividere. Sono amori che spesso a questa età. Si confondono dentro a quest'anima. Che si interroga senza decidere. Se è un amore che fa per noi. E quante notti perse a piangere. Rileggendo quelle lettere. Che non riesci più a buttare via. Dal labirinto della nostalgia. Grandi amori che finiscono. Ma perchè restano nel cuore. Strani amori che vanno e vengono. Nei pensieri che lì nascondono. Storie vere che ci appartengono. Ma si lasciano come noi. Strani amori fragili. Prigionieri liberi. Strani amori mettono nei guai. Ma, in realtà, siamo noi. Strani amori fragili. Prigionieri liberi. Strani amori che non sanno vivere. E si perdono dentro noi. Mi dispiace devo andare via. Questa volta l'ho promesso a me. Perchè ho voglia di un amore vero. Senza te." 
 
 
 barca = "La Barca. Luis Miguel. Dicen que la distancia es el olvido. Pero yo no concibo esta razón. Porque yo seguiré siendo el cautivo. De los caprichos de tu corazón. Supiste esclarecer mis pensamientos. Me diste la verdad que yo soñé. Ahuyentaste de mí los sufrimientos. En la primera noche que te amé. Hoy mi playa se viste de amargura. Porque tu barca tiene que partir. A cruzar otros mares de locura. Cuida que no naufrague en tu vivir. Cuando la luz del sol se esté apagando. Y te sientas cansada de vagar. Piensa que yo por ti estaré esperando. Hasta que tú decidas regresar. Supiste esclarecer mis pensamientos. Me diste la verdad que yo soñé. Ahuyentaste de mí los sufrimientos. En la primera noche que te amé. Hoy mi playa se viste de amargura. Porque tu barca tiene que partir. A cruzar otros mares de locura. Cuida que no naufrague en tu vivir. Cuando la luz del sol se esté apagando. Y te sientas cansada de vagar. Piensa que yo por ti estaré esperando. Hasta que tú decidas regresar."
+
+black = "Paint it Black. Roling Stones. I see a red door and I want it painted black. No colors anymore. I want them to turn black. I see the girls walk by dressed. In their summer clothes. I have to turn my head. Until my darkness goes. I see a line of cars. And they're all painted black. With flowers and my love. Both never to come back. I see people turn their heads. And quickly look away. Like a new born baby. It just happens every day. I look inside myself. And see my heart is black. I see my red door. And must have it painted black. Maybe then I'll fade away. And not have to face the facts. It's not easy facin' up. When your whole world is black. No more will my green sea. Go turn a deeper blue. I could not foresee. This thing happening to you. If I look hard enough. Into the settin' Sun. My love will laugh with me. Before the mornin' comes. I see a red door and. I want it painted black. No colors anymore. I want them to turn black. I see the girls walk by dressed. In their summer clothes. I have to turn my head. Until my darkness goes. I want see your face. Painted black. Black as night. Black as coal. Don't wanna see the Sun. Flying high in the sky. I wanna see it painted, painted, painted. Painted black. Yeah!" 
 
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
