@@ -85,26 +85,28 @@ def carregar_files(tipo, choice):
 
 def carregar_demo(choice):
     st.markdown("### Arquivos de demonstração")
-    if st.button("Amor é fogo que arde sem se ver.txt"):
+    if st.button("Amor é fogo que arde sem se ver"):
         doc = camoes
         flag = 'demo'
     
     if choice != "Spacy":
-        if st.button("What A Wonderful World.txt"):
+        if st.button("What A Wonderful World"):
             doc = armstrong
             flag = 'demo'
 
-    #if choice != "Spacy":
-    #    if st.button("Paint it Black.txt"):
-    #        doc = black
-    #        flag = 'demo'    
+    if choice != "Spacy":
+        if st.button("Strani Amori"):
+            doc = legiao
+            flag = 'demo'
 
-    if st.button("Strani Amori.txt"):
-        doc = legiao
-        flag = 'demo'
+    if st.button("Fanatismo"):
+        doc = fanatismo
+        flag = 'demo' 
+   
+   
 
     if choice != "Spacy":
-        if st.button("La Barca.txt"):
+        if st.button("La Barca"):
             doc = barca
             flag = 'demo'    
     
@@ -154,7 +156,12 @@ legiao = "Strani amori. Renato Russo. Mi dispiace devo andare via. Ma sapevo che
 
 barca = "La Barca. Luis Miguel. Dicen que la distancia es el olvido. Pero yo no concibo esta razón. Porque yo seguiré siendo el cautivo. De los caprichos de tu corazón. Supiste esclarecer mis pensamientos. Me diste la verdad que yo soñé. Ahuyentaste de mí los sufrimientos. En la primera noche que te amé. Hoy mi playa se viste de amargura. Porque tu barca tiene que partir. A cruzar otros mares de locura. Cuida que no naufrague en tu vivir. Cuando la luz del sol se esté apagando. Y te sientas cansada de vagar. Piensa que yo por ti estaré esperando. Hasta que tú decidas regresar. Supiste esclarecer mis pensamientos. Me diste la verdad que yo soñé. Ahuyentaste de mí los sufrimientos. En la primera noche que te amé. Hoy mi playa se viste de amargura. Porque tu barca tiene que partir. A cruzar otros mares de locura. Cuida que no naufrague en tu vivir. Cuando la luz del sol se esté apagando. Y te sientas cansada de vagar. Piensa que yo por ti estaré esperando. Hasta que tú decidas regresar."
 
-black = "Paint it Black. Roling Stones. I see a red door and I want it painted black. No colors anymore. I want them to turn black. I see the girls walk by dressed. In their summer clothes. I have to turn my head. Until my darkness goes. I see a line of cars. And they're all painted black. With flowers and my love. Both never to come back. I see people turn their heads. And quickly look away. Like a new born baby. It just happens every day. I look inside myself. And see my heart is black. I see my red door. And must have it painted black. Maybe then I'll fade away. And not have to face the facts. It's not easy facin' up. When your whole world is black. No more will my green sea. Go turn a deeper blue. I could not foresee. This thing happening to you. If I look hard enough. Into the settin' Sun. My love will laugh with me. Before the mornin' comes. I see a red door and. I want it painted black. No colors anymore. I want them to turn black. I see the girls walk by dressed. In their summer clothes. I have to turn my head. Until my darkness goes. I want see your face. Painted black. Black as night. Black as coal. Don't wanna see the Sun. Flying high in the sky. I wanna see it painted, painted, painted. Painted black. Yeah!" 
+black = "Paint it Black. Roling Stones. I see a red door and I want it painted black. No colors anymore. I want them to turn black. I see the girls walk by dressed. In their summer clothes. I have to turn my head. Until my darkness goes. I see a line of cars. And they're all painted black. With flowers and my love. Both never to come back. I see people turn their heads. And quickly look away. Like a new born baby. It just happens every day. I look inside myself. And see my heart is black. I see my red door. And must have it painted black. Maybe then I'll fade away. And not have to face the facts. It's not easy facin' up. When your whole world is black. No more will my green sea. Go turn a deeper blue. I could not foresee. This thing happening to you. If I look hard enough. Into the settin' Sun. My love will laugh with me. Before the mornin' comes. I see a red door and. I want it painted black. No colors anymore. I want them to turn black. I see the girls walk by dressed. In their summer clothes. I have to turn my head. Until my darkness goes. I want see your face. Painted black. Black as night. Black as coal. Don't wanna see the Sun. Flying high in the sky. I wanna see it painted, painted, painted. Painted black. Yeah!"
+
+
+
+fanatismo = "Fanatismo. Poema escrito por Florbela Espanca. Minh'alma, de sonhar-te, anda perdida. Meus olhos andam cegos de te ver. Não és sequer razão do meu viver. Pois que tu és já toda a minha vida. Não vejo nada assim enlouquecida. Passo no mundo, meu Amor, a ler. No misterioso livro do teu ser. A mesma história tantas vezes lida. Tudo no mundo é frágil, tudo passa. Quando me dizem isto, toda a graça. Duma boca divina fala em mim. De olhos postos em ti, digo de rastros. Podem voar mundos, morrer astros. Que tu és como Deus: princípio e fim!..."
+
 
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
@@ -194,10 +201,10 @@ def main():
     spacy_again = "------> Carregue novamente "
 
     if choice1 == 'Home':
-        #st.write("Files:")
+        st.subheader(choice1)
         st.markdown("### Files -> .txt")
-        st.write("After uploading you can convert to 6 languages")
-        st.write("#### Portuguese, Spanish, French, Italian, Japanese and English")
+        st.markdown("### After uploading you can read, translate and listening to:")
+        st.markdown("###  Portuguese -	Spanish -	French -	Italian -	Japanese -	English")
         
     if choice1 == 'Spacy':
         st.subheader(choice1 +" -> "+choice2)
@@ -352,7 +359,7 @@ def main():
             
             st.markdown("### Texto")
             st.markdown(blob)
-            
+                       
  
             original_key = get_key(idioma_original, dict_idioma_full)
 
@@ -374,6 +381,7 @@ def main():
                 st.warning(choice2 + " --> "+warning_upload)
 
     if choice1 == 'About':
+        st.subheader(choice1)
         st.subheader("I hope you enjoy it and use to learn something")
         st.subheader("For while only txt files")
         st.subheader("Built with Streamlit, Textblob and Spacy")
