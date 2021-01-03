@@ -4,8 +4,8 @@ from textblob import TextBlob
 
 #import pdftotext
 
-import spacy
-from spacy import displacy
+#import spacy
+#from spacy import displacy
 
 #import pt_core_news_sm
 
@@ -57,7 +57,11 @@ def lista_idiomas_full():
     return dict_idiomas
 
 def play(raw_text, idioma_key):
+    #st.markdown("Play")
+    #st.text(raw_text)
+    #st.text(idioma_key)
     tts = gTTS(text=raw_text, lang=idioma_key)
+    #st.text(tts)
     tts.save("audio.mp3")
     audio_file = open("audio.mp3","rb")
     audio_bytes = audio_file.read()
@@ -89,26 +93,22 @@ def carregar_demo(choice):
         doc = camoes
         flag = 'demo'
     
-    if choice != "Spacy":
-        if st.button("What A Wonderful World"):
-            doc = armstrong
-            flag = 'demo'
+    if st.button("What A Wonderful World"):
+        doc = armstrong
+        flag = 'demo'
 
-    if choice != "Spacy":
-        if st.button("Strani Amori"):
-            doc = legiao
-            flag = 'demo'
+    if st.button("Strani Amori"):
+        doc = legiao
+        flag = 'demo'
 
     if st.button("Fanatismo"):
         doc = fanatismo
         flag = 'demo' 
    
-   
-
-    if choice != "Spacy":
-        if st.button("La Barca"):
-            doc = barca
-            flag = 'demo'    
+  
+    if st.button("La Barca"):
+        doc = barca
+        flag = 'demo'    
     
     
     
@@ -125,6 +125,7 @@ def convert(dict_idioma,blob, options):
         try:
             texto_convertido = str(blob.translate(to=idioma_final_key))
             st.success("Language"+": "+ value + " ("+idioma_final_key+")")
+            st.markdown("### Texto Convertido")
             st.write(texto_convertido)
             play(texto_convertido,idioma_final_key)
                         
@@ -134,18 +135,18 @@ def convert(dict_idioma,blob, options):
         st.error("ERROR 2: some languages will fail to play the sound.")
 
 
-@st.cache(allow_output_mutation=True)
-def load_model(name):
-    return spacy.load(name)
+#@st.cache(allow_output_mutation=True)
+#def load_model(name):
+#    return spacy.load(name)
 
 
-@st.cache(allow_output_mutation=True)
-def process_text(model_name, text):
-    nlp = load_model(model_name)
-    return nlp(text)
+#@st.cache(allow_output_mutation=True)
+#def process_text(model_name, text):
+#    nlp = load_model(model_name)
+#    return nlp(text)
 
 
-SPACY_MODEL_NAMES = ["pt_core_news_sm"]
+#SPACY_MODEL_NAMES = ["pt_core_news_sm"]
 
 camoes = "Amor é fogo que arde sem se ver. Poema escrito por Luís Vaz de Camões. Começa assim. Amor é um fogo que arde sem se ver. É ferida que dói, e não se sente. É um contentamento descontente. É dor que desatina sem doer. É um não querer mais que bem querer. É um andar solitário entre a gente. É nunca contentar-se e contente. É um cuidar que ganha em se perder. É querer estar preso por vontade. É servir a quem vence, o vencedor. É ter com quem nos mata, lealdade. Mas como causar pode seu favor. Nos corações humanos amizade. Se tão contrário a si é o mesmo Amor?"
 
@@ -185,7 +186,8 @@ def main():
     image1 = Image.open("bandeira6.png")
     st.image(image1,caption="",use_column_width=True)  
    
-    menu1 = ["Home","Reader", 'Spacy',"About"]
+    menu1 = ["Home","Reader","Converter","About"]
+    #menu1 = ["Home","Reader","About"]
     choice1 = st.sidebar.radio("Home",menu1)
 
     menu2 = ["Demo", "Upload"]
@@ -195,149 +197,18 @@ def main():
    
     warning_demo = "Clique num arquivo da demonstração"
     warning_upload = "Carregue um arquivo txt, por favor"
-    warning_spacy = "treinado apenas para textos em Português."
     file_test = "Arquivo demonstraçao carregado..."
     file_upload = "Arquivo uploaded carregado..."
     spacy_again = "------> Carregue novamente "
 
-    if choice1 == 'Home':
+    if choice1 == menu1[0]: # Home
         st.subheader(choice1)
         st.markdown("### Files -> .txt")
         st.markdown("### After uploading you can read, translate and listening to:")
         st.markdown("###  Portuguese -	Spanish -	French -	Italian -	Japanese -	English")
-        
-    if choice1 == 'Spacy':
-        st.subheader(choice1 +" -> "+choice2)
-        try:
-            if choice2 == menu2[0]:  # "Demo"
-                doc_demo, flag = carregar_files("demo", choice1)
-                st.success(file_test)
-                doc = doc_demo
-                                  
-            
-            elif choice2 == menu2[1]: # "Upload"
-                doc_upload, flag = carregar_files("upload", choice2)
-                st.success(file_upload)
-                doc = doc_upload
-
-            blob = TextBlob(doc)
-            idioma_original = get_value(blob.detect_language(),dict_idioma_full)   
-            st.markdown("### Texto")
-            st.write(doc)
-            if idioma_original == "Portuguese":
-                doc = process_text('pt_core_news_sm',doc)
-                nlp = spacy.load('pt_core_news_sm')
-                st.text([(word, word.ent_type_) for word in doc if word.ent_type_])
-                displacy.render(doc, style='ent', jupyter=True)
-        
-                if "parser" in nlp.pipe_names:
-                    st.header("Dependency Parse & Part-of-speech tags")
-                    st.sidebar.header("Dependency Parse")
-                    split_sents = st.sidebar.checkbox("Split sentences", value=True)
-                    collapse_punct = st.sidebar.checkbox("Collapse punctuation", value=True)
-                    collapse_phrases = st.sidebar.checkbox("Collapse phrases")
-                    compact = st.sidebar.checkbox("Compact mode")
-                    options = {
-                       "collapse_punct": collapse_punct,
-                       "collapse_phrases": collapse_phrases,
-                       "compact": compact,
-                       }
-                    docs = [span.as_doc() for span in doc.sents] if split_sents else [doc]
-                    for sent in docs:
-                        html = displacy.render(sent, options=options)
-                        # Double newlines seem to mess with the rendering
-                        html = html.replace("\n\n", "\n")
-                        if split_sents and len(docs) > 1:
-                            st.markdown(f"> {sent.text}")
-                        st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
-
-                if "ner" in nlp.pipe_names:
-                    st.header("Named Entities")
-                    st.sidebar.header("Named Entities")
-                    default_labels = ["PER", "LOC", "ORG", "MISC"]
-                    labels = st.sidebar.multiselect("Entity labels", nlp.get_pipe("ner").labels, default_labels)
-                    html = displacy.render(doc, style="ent", options={"ents": labels})
-
-                    # Newlines seem to mess with the rendering
-                    html = html.replace("\n", " ")
-                    st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
-                    attrs = ["text", "label_", "start", "end", "start_char", "end_char"]
-                    if "entity_linker" in nlp.pipe_names:
-                        attrs.append("kb_id_")
-                    data = [[str(getattr(ent, attr)) for attr in attrs]
-                    for ent in doc.ents
-                    if ent.label_ in labels]
-                    df = pd.DataFrame(data, columns=attrs)
-                    st.dataframe(df)
     
-                if "textcat" in nlp.pipe_names:
-                    st.header("Text Classification")
-                    st.markdown(f"> {text}")
-                    df = pd.DataFrame(doc.cats.items(), columns=("Label", "Score"))
-                    st.dataframe(df)
-            
-                vector_size = nlp.meta.get("vectors", {}).get("width", 0)
-                if vector_size:
-                    st.header("Vectors & Similarity")
-                    st.code(nlp.meta["vectors"])
-                    text1 = st.text_input("Text or word 1", "apple")
-                    text2 = st.text_input("Text or word 2", "orange")
-                    doc1 = process_text(spacy_model, text1)
-                    doc2 = process_text(spacy_model, text2)
-                    similarity = doc1.similarity(doc2)
-                    if similarity > 0.5:
-                        st.success(similarity)
-                    else:
-                        st.error(similarity)
-
-                st.header("Token attributes")
-
-                if st.button("Show token attributes"):
-                    attrs = [
-        "idx",
-        "text",
-        "lemma_",
-        "pos_",
-        "tag_",
-        "dep_",
-        "head",
-        "ent_type_",
-        "ent_iob_",
-        "shape_",
-        "is_alpha",
-        "is_ascii",
-        "is_digit",
-        "is_punct",
-        "like_num",
-    ]
-                    data = [[str(getattr(token, attr)) for attr in attrs] for token in doc]
-                    df = pd.DataFrame(data, columns=attrs)
-                    st.dataframe(df)
-
-
-                st.header("JSON Doc")
-                if st.button("Show JSON Doc"):
-                    st.json(doc.to_json())
-
-                st.header("JSON model meta")
-                if st.button("Show JSON model meta"):
-                    st.json(nlp.meta)
-
-            if idioma_original != "Portuguese":
-                st.info("Original Language "+":  "+ idioma_original)
-                st.warning(choice2 + "--> "+ warning_spacy)
-                st.info(spacy_again) 
-
-
-        except:
-            if choice1 == "Spacy" and choice2 == "Demo":
-                st.warning(choice2 + " --> "+warning_demo)
-            elif choice1 == "Spacy" and choice2 == "Upload":
-                st.warning(choice2 + " --> "+warning_upload)
         
-
-        
-    if choice1 == 'Reader':
+    if choice1 == menu1[1]: # Reader
         st.subheader(choice1 +" -> "+choice2)
         
         try:
@@ -357,7 +228,7 @@ def main():
             dict_idioma_full = lista_idiomas_full()
             idioma_original = get_value(blob.detect_language(),dict_idioma_full)   
             
-            st.markdown("### Texto")
+            st.markdown("### Texto Lido")
             st.markdown(blob)
                        
  
@@ -370,27 +241,65 @@ def main():
             #st.markdown(original_key)
             play(doc,original_key)
             
-            if flag != "demo":
-                options = st.radio("Choose a language", tuple(dict_idioma.values()))
-                convert(dict_idioma, blob, options)
+            #if flag != "demo":
+            #    options = st.radio("Choose a language", tuple(dict_idioma.values()))
+            #    convert(dict_idioma, blob, options)
                         
         except:
-           if choice1 == "Reader" and choice2 == "Demo":
+           if choice1 == menu1[1] and choice2 == menu2[1]:
                 st.warning(choice2 + " --> "+warning_demo)
            elif choice1 == "Reader" and choice2 == "Upload":
                 st.warning(choice2 + " --> "+warning_upload)
 
-    if choice1 == 'About':
+    if choice1 == menu1[2]: # Converter
+        try:
+            doc_upload, flag = carregar_files("upload", choice2)
+            st.success(file_upload)
+            doc = doc_upload
+            blob = TextBlob(doc)
+            idioma_original = get_value(blob.detect_language(),dict_idioma_full) 
+            original_key = get_key(idioma_original, dict_idioma_full)
+            dict_idioma_full = lista_idiomas_full()
+            st.markdown("### Texto a ser Convertido")
+            st.markdown(blob)
+            # dict_idioma recebe a lista sem o idioma original
+            dict_idioma = lista_idiomas(idioma_original)        # Remove idioma original da lista
+            
+            st.success("Original Language"+":  "+ idioma_original + "  ("+original_key+")")
+            #st.markdown(original_key)
+            #play(doc,original_key)
+            
+ 
+            options = st.radio("Choose a language", tuple(dict_idioma.values()))
+            convert(dict_idioma, blob, options)
+        except:
+            st.success("Faça upload do texto txt")
+            
+        #st.markdown("### Texto a ser Convertido")
+        #st.markdown(blob)
+        # dict_idioma recebe a lista sem o idioma original
+        #dict_idioma = lista_idiomas(idioma_original)        # Remove idioma original da lista
+            
+        #st.success("Original Language"+":  "+ idioma_original + "  ("+original_key+")")
+        #st.markdown(original_key)
+        #play(doc,original_key)
+            
+ 
+        #options = st.radio("Choose a language", tuple(dict_idioma.values()))
+        #convert(dict_idioma, blob, options)
+
+
+    if choice1 == menu1[3]: # About
         st.subheader(choice1)
         st.subheader("I hope you enjoy it and use to learn something")
         st.subheader("For while only txt files")
-        st.subheader("Built with Streamlit, Textblob and Spacy")
-        st.write("Obs: Spacy loaded with model pt_core_news_sm")
+        st.subheader("Built with Streamlit, Textblob")
+        #st.write("Obs: Spacy loaded with model pt_core_news_sm")
         st.write("Problems/bugs:")
         st.write(" - sometimes the original language can't be correctly detected")
         st.write(" - sometimes the sound will fail.")
-        st.subheader("Powerful example of Spacy code analyse")
-        st.write("Thanks Ines Montani : https://gist.github.com/ines/b320cb8441b590eedf19137599ce6685")
+        #st.subheader("Powerful example of Spacy code analyse")
+        #st.write("Thanks Ines Montani : https://gist.github.com/ines/b320cb8441b590eedf19137599ce6685")
         st.subheader("by Silvio Lima")
         
         if st.button("Linkedin"):
